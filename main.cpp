@@ -22,12 +22,15 @@ int main() {
 
     //Wait for, then process requests from the client
     listen(fd, 10);
-    int client_fd = accept(fd, nullptr, nullptr);
-    int buf_size = 1024;
-    char buffer[buf_size];
-    read(client_fd, buffer, buf_size);
-    string response = "HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nHello";
-    //Send HTTP response to client
-    write(client_fd, response.c_str(), response.size());
-    close(fd); close(client_fd);
+    while (true) {
+        int client_fd = accept(fd, nullptr, nullptr);
+        int buf_size = 1024;
+        char buffer[buf_size];
+        read(client_fd, buffer, buf_size);
+        string response = "HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nHello";
+        //Send HTTP response to client
+        write(client_fd, response.c_str(), response.size());
+        close(client_fd);
+    }
+    close(fd);
 }
